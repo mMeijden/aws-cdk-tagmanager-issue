@@ -1,0 +1,44 @@
+{
+	"name": "cdk-v2-189",
+	"version": "0.1.0",
+	"bin": {
+		"cdk-v2-179": "bin/cdk-v2-189.js"
+	},
+	"scripts": {
+		"build": "tsc",
+		"watch": "tsc -w",
+		"test": "jest",
+		"cdk": "cdk"
+	},
+	"devDependencies": {
+		"@aws-cdk/assert": "2.68.0",
+		"@jest/globals": "^29.7.0",
+		"@types/jest": "^29.5.14",
+		"@types/lodash": "^4.17.13",
+		"@types/node": "22.10.2",
+		"@types/object-hash": "^3.0.6",
+		"aws-cdk": "2.1014.0",
+		"aws-cdk-lib": "2.189.0",
+		"aws-sdk": "^2.1692.0",
+		"cdk-nag": "^2.35.51",
+		"constructs": "10.4.2",
+		"esbuild": "^0.24.0",
+		"jest": "^29.7.0",
+		"jsii": "5.7.1",
+		"jsii-pacmak": "^1.105.0",
+		"jsii-release": "^0.2.923",
+		"prettier": "3.4.2",
+		"publib": "^0.2.923",
+		"ts-jest": "^29.2.5",
+		"ts-node": "^10.9.2",
+		"typescript": "~5.4.2"
+	},
+	"peerDependencies": {
+		"aws-cdk-lib": "2.189.0",
+		"cdk-nag": "^2.34.23",
+		"constructs": "10.4.2"
+	},
+	"dependencies": {
+		"cdk-nag": "^2.34.23"
+	}
+}
