@@ -1,6 +1,7 @@
 import * as cdk from "aws-cdk-lib";
-import { Template, Match, Annotations } from "aws-cdk-lib/assertions";
+import { Match, Annotations } from "aws-cdk-lib/assertions";
 import { CfnVPCEndpoint } from "aws-cdk-lib/aws-ec2";
+import { CfnBucket } from "aws-cdk-lib/aws-s3";
 
 class TagChecker implements cdk.IAspect {
 	visit(node: any): void {
@@ -16,12 +17,24 @@ class TagChecker implements cdk.IAspect {
 				console.log(`Name tag is present with value: ${nameTag}`);
 			}
 		}
+
+		if (node instanceof CfnBucket) {
+			const tags = [...(cdk.Stack.of(node).resolve(node.tags.renderTags()) || [])];
+			const nameTag = tags?.find((tag: any) => tag.key === "Name")?.value;
+
+			if (!nameTag) {
+				console.log("No Name tag found in bucket tags");
+				console.log(`Tags found: ${JSON.stringify(tags)}`);
+				cdk.Annotations.of(node).addError("Name tag is missing");
+			} else {
+				console.log(`Name tag is present with value: ${nameTag}`);
+			}
+		}
 	}
 }
 
 test("VPC Endpoint will have Correct Tags", () => {
 	const app = new cdk.App();
-	// WHEN
 	const stack = new cdk.Stack(app, "MyTestStack");
 	const endpoint = new CfnVPCEndpoint(stack, "MockVPCEndpoint", {
 		serviceName: "com.amazonaws.vpce.us-east-1.vpce-svc-12345678",
@@ -33,7 +46,18 @@ test("VPC Endpoint will have Correct Tags", () => {
 			}
 		]
 	});
+
+	const bucket = new CfnBucket(stack, "MockBucket", {
+		tags: [
+			{
+				key: "IrrelevantBucketTag",
+				value: "IrrelevantBucketValue"
+			}
+		]
+	});
+	cdk.Tags.of(bucket).add("Name", "ValidBucketName");
 	cdk.Tags.of(endpoint).add("Name", "ValidName");
+	cdk.Tags.of(stack).add("StackTag", "StackValue");
 
 	// THEN
 	cdk.Aspects.of(app).add(new TagChecker());
