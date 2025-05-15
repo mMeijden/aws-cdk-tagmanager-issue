@@ -15,7 +15,7 @@ class TagChecker implements cdk.IAspect {
 			];
 			const nameTag = tags?.find((tag: any) => tag.key === "Name")?.value;
 			if (!nameTag) {
-				throw new Error("Name tag is missing");
+				cdk.Annotations.of(node).addError("Name tag is missing");
 			} else {
 				console.log(`Name tag is present with value: ${nameTag}`);
 			}

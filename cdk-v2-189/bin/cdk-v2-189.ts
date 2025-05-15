@@ -5,6 +5,7 @@ import { CfnVPCEndpoint } from "aws-cdk-lib/aws-ec2";
 
 const app = new cdk.App();
 const stack = new CdkV2189Stack(app, "CdkV2189Stack");
+cdk.Tags.of(stack).add("Name", "ValidName");
 
 class TagChecker implements cdk.IAspect {
 	visit(node: any): void {

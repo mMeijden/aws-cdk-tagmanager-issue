@@ -16,6 +16,6 @@ export class CdkV2189Stack extends Stack {
 				}
 			]
 		});
-		Tags.of(endpoint).add("Name", "ValidName");
+		// Tags.of(endpoint).add("Name", "ValidName");
 	}
 }
